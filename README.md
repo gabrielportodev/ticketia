@@ -67,8 +67,9 @@ No frontend, `npm test` compila a aplicação e executa os arquivos `tests/*.tes
 
 ```sh
 cd frontend
+npm run format:check
 npm run lint
 npm test
 ```
 
-A cada push em qualquer branch, o GitHub Actions executa os testes do backend com Java 21, PostgreSQL 16 e RabbitMQ 4. O teste de mensageria usa um classificador simulado e dispensa chave da Groq. Quando o backend passa, a CI instala as dependências do frontend com Node.js 24 e executa lint, build e testes.
+A cada push em qualquer branch, o GitHub Actions executa os testes do backend com Java 21, PostgreSQL 16 e RabbitMQ 4. O teste de mensageria usa um classificador simulado e dispensa chave da Groq. Quando o backend passa, a CI instala as dependências do frontend com Node.js 24 e verifica a formatação com Prettier, executa o lint, o build e os testes.
