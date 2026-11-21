@@ -63,10 +63,12 @@ sh mvnw test
 
 Para executar a suíte e gerar o JAR em `backend/target/`, troque `test` por `verify`.
 
-O frontend ainda não tem suíte de testes automatizados. Para verificar o código e a compilação após instalar as dependências, execute:
+No frontend, `npm test` compila a aplicação e executa os arquivos `tests/*.test.mjs` com o executor de testes do Node.js. O teste verifica o idioma e o título principal no HTML gerado para a página inicial.
 
 ```sh
 cd frontend
 npm run lint
-npm run build
+npm test
 ```
+
+A cada push em qualquer branch, o GitHub Actions executa os testes do backend com Java 21, PostgreSQL 16 e RabbitMQ 4. O teste de mensageria usa um classificador simulado e dispensa chave da Groq. Quando o backend passa, a CI instala as dependências do frontend com Node.js 24 e executa lint, build e testes.
