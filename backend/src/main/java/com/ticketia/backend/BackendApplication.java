@@ -1,4 +1,4 @@
-package com.atendeia.backend;
+package com.ticketia.backend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,4 +1,4 @@
-package com.atendeia.backend.modules.ticket.dtos;
+package com.ticketia.backend.modules.ticket.dtos;
 
 import jakarta.validation.constraints.NotBlank;
 

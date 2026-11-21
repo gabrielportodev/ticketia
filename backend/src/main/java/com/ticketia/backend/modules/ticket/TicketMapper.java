@@ -1,9 +1,9 @@
-package com.atendeia.backend.modules.ticket;
+package com.ticketia.backend.modules.ticket;
 
 import org.springframework.stereotype.Component;
 
-import com.atendeia.backend.modules.ticket.dtos.CreateTicketRequest;
-import com.atendeia.backend.modules.ticket.dtos.CreateTicketResponse;
+import com.ticketia.backend.modules.ticket.dtos.CreateTicketRequest;
+import com.ticketia.backend.modules.ticket.dtos.CreateTicketResponse;
 
 @Component
 public class TicketMapper {

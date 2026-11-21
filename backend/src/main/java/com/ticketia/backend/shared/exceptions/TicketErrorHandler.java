@@ -1,4 +1,4 @@
-package com.atendeia.backend.shared.exceptions;
+package com.ticketia.backend.shared.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.atendeia.backend.modules.ticket.TicketController;
-import com.atendeia.backend.shared.dtos.ApiResponse;
+import com.ticketia.backend.modules.ticket.TicketController;
+import com.ticketia.backend.shared.dtos.ApiResponse;
 
 @RestControllerAdvice(assignableTypes = TicketController.class)
 public class TicketErrorHandler {

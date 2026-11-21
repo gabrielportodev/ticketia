@@ -1,4 +1,4 @@
-package com.atendeia.backend.shared.dtos;
+package com.ticketia.backend.shared.dtos;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

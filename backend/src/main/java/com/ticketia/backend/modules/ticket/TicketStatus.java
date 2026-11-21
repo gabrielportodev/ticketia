@@ -1,4 +1,4 @@
-package com.atendeia.backend.modules.ticket;
+package com.ticketia.backend.modules.ticket;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 

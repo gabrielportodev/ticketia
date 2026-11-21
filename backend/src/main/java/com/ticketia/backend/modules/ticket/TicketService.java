@@ -1,10 +1,10 @@
-package com.atendeia.backend.modules.ticket;
+package com.ticketia.backend.modules.ticket;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.atendeia.backend.modules.ticket.dtos.CreateTicketRequest;
-import com.atendeia.backend.modules.ticket.dtos.CreateTicketResponse;
+import com.ticketia.backend.modules.ticket.dtos.CreateTicketRequest;
+import com.ticketia.backend.modules.ticket.dtos.CreateTicketResponse;
 
 import lombok.RequiredArgsConstructor;
 

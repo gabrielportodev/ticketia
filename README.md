@@ -1,6 +1,6 @@
-# AtendeIA
+# TicketIA
 
-O AtendeIA é um projeto de triagem de atendimentos em desenvolvimento. A proposta é classificar mensagens de clientes com IA e encaminhá-las ao departamento responsável, com opção de revisão manual. O endpoint `POST /tickets` registra a mensagem no PostgreSQL e retorna um protocolo UUID com o status `PENDENTE_TRIAGEM`.
+O TicketIA é um projeto de triagem de atendimentos em desenvolvimento. A proposta é classificar mensagens de clientes com IA e encaminhá-las ao departamento responsável, com opção de revisão manual. O endpoint `POST /tickets` registra a mensagem no PostgreSQL e retorna um protocolo UUID com o status `PENDENTE_TRIAGEM`.
 
 ## Stack
 
@@ -14,7 +14,7 @@ Use Java 21, PostgreSQL 16 ou superior e Node.js 20.9 ou superior com npm. Execu
 
 ### Backend
 
-Crie o banco `atendeia_db` no PostgreSQL. Na primeira execução, copie o exemplo de configuração e ajuste usuário, senha e endereço do banco no arquivo `application.properties`.
+Crie o banco `ticketia_db` no PostgreSQL. Na primeira execução, copie o exemplo de configuração e ajuste usuário, senha e endereço do banco no arquivo `application.properties`.
 
 ```sh
 cd backend

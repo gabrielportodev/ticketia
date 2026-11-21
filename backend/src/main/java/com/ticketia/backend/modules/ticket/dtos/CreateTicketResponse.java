@@ -1,9 +1,9 @@
-package com.atendeia.backend.modules.ticket.dtos;
+package com.ticketia.backend.modules.ticket.dtos;
 
 import java.time.Instant;
 import java.util.UUID;
 
-import com.atendeia.backend.modules.ticket.TicketStatus;
+import com.ticketia.backend.modules.ticket.TicketStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record CreateTicketResponse(

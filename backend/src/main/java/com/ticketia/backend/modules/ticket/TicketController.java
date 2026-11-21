@@ -1,4 +1,4 @@
-package com.atendeia.backend.modules.ticket;
+package com.ticketia.backend.modules.ticket;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.atendeia.backend.modules.ticket.dtos.CreateTicketRequest;
-import com.atendeia.backend.modules.ticket.dtos.CreateTicketResponse;
-import com.atendeia.backend.shared.dtos.ApiResponse;
+import com.ticketia.backend.modules.ticket.dtos.CreateTicketRequest;
+import com.ticketia.backend.modules.ticket.dtos.CreateTicketResponse;
+import com.ticketia.backend.shared.dtos.ApiResponse;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
