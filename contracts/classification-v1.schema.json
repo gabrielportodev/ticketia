@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Ticket classification v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["category", "priority", "subject", "requires_review"],
+  "properties": {
+    "category": {
+      "type": "string",
+      "enum": ["FINANCE", "ACCOUNT_ACCESS", "CANCELLATION", "SUPPORT", "OTHER"]
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["LOW", "MEDIUM", "HIGH"]
+    },
+    "subject": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 120,
+      "pattern": "\\S"
+    },
+    "requires_review": {
+      "type": "boolean"
+    }
+  }
+}
