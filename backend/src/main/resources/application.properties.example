@@ -1,0 +1,6 @@
+spring.application.name=backend
+
+# PostgreSQL local: ajuste o endereço, o nome do banco e as credenciais.
+spring.datasource.url=jdbc:postgresql://localhost:5432/atendeia_db
+spring.datasource.username=seu_usuario
+spring.datasource.password=sua_senha
