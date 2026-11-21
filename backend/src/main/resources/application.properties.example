@@ -2,5 +2,15 @@ spring.application.name=backend
 
 # PostgreSQL local: ajuste o endereço, o nome do banco e as credenciais.
 spring.datasource.url=jdbc:postgresql://localhost:5432/ticketia_db
-spring.datasource.username=seu_usuario
-spring.datasource.password=sua_senha
+spring.datasource.username=user
+spring.datasource.password=password
+
+# Configurações da API de IA
+ticketia.ai.api-key=
+ticketia.ai.model=openai/gpt-oss-20b
+ticketia.ai.base-url=https://api.groq.com/openai/v1
+
+spring.rabbitmq.host=localhost
+spring.rabbitmq.port=5672
+spring.rabbitmq.username=ticketia
+spring.rabbitmq.password=ticketia_local
