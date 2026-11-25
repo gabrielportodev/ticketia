@@ -50,6 +50,7 @@ services:
     environment:
       <<: *backend-environment
       SPRING_PROFILES_ACTIVE: publisher
+      TICKETIA_STAFF_USERS: '${TICKETIA_STAFF_USERS:-[]}'
     depends_on:
       postgres:
         condition: service_healthy
