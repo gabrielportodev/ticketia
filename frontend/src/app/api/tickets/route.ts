@@ -1,13 +1,11 @@
-export async function POST(request: Request) {
-  const apiUrl = (process.env.TICKETIA_API_URL || 'http://127.0.0.1:8080').replace(/\/$/, '')
+import { fetchBackend } from '@/lib/api/backend'
 
+export async function POST(request: Request) {
   try {
-    const response = await fetch(`${apiUrl}/tickets`, {
+    const response = await fetchBackend('/tickets', {
       method: 'POST',
       headers: { 'Content-Type': request.headers.get('Content-Type') ?? 'application/json' },
-      body: await request.text(),
-      redirect: 'manual',
-      signal: AbortSignal.timeout(10_000)
+      body: await request.text()
     })
 
     return new Response(response.body, {
