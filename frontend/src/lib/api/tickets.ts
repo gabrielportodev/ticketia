@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { api } from '@/lib/api/client'
 import type { ApiResponse } from '@/types/api'
 import type { CreateTicketResponse } from '@/types/ticket'
 
@@ -9,7 +8,7 @@ const ticketErrorMessages = {
 }
 
 export async function createTicket(message: string): Promise<string> {
-  const { data, status } = await api.post<ApiResponse<CreateTicketResponse>>('/tickets', { message })
+  const { data, status } = await axios.post<ApiResponse<CreateTicketResponse>>('/api/tickets', { message })
 
   const protocol = data?.data?.protocol
 

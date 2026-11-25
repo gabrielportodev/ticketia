@@ -23,7 +23,7 @@ public class AiConfiguration {
             @Value("${ticketia.ai.api-key}") String apiKey,
             @Value("${ticketia.ai.model}") String model,
             @Value("${ticketia.ai.base-url}") String baseUrl) throws IOException {
-        Assert.hasText(apiKey, "ticketia.ai.api-key is required");
+        Assert.hasText(apiKey, "TICKETIA_AI_API_KEY must be configured in the root .env");
         Assert.hasText(model, "ticketia.ai.model must contain a model identifier");
         Assert.hasText(baseUrl, "ticketia.ai.base-url is required");
         var schema = new ClassPathResource("contracts/classification-v1.schema.json");

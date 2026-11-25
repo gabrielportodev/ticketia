@@ -2,3 +2,5 @@ AGENTS.md
 /docs
 .agents/
 .codex/
+/.env*
+!/.env.example

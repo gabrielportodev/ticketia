@@ -1,0 +1,93 @@
+name: ticketia
+
+x-backend-environment: &backend-environment
+  JAVA_TOOL_OPTIONS: '${TICKETIA_JAVA_OPTIONS:--Xms64m -Xmx256m -XX:+UseSerialGC -XX:ActiveProcessorCount=2}'
+  SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${TICKETIA_DB_NAME:-ticketia}
+  SPRING_DATASOURCE_USERNAME: '${TICKETIA_DB_USER:-ticketia}'
+  SPRING_DATASOURCE_PASSWORD: '${TICKETIA_DB_PASSWORD:-ticketia_local}'
+  SPRING_DATASOURCE_HIKARI_MINIMUM_IDLE: 1
+  SPRING_RABBITMQ_HOST: rabbitmq
+  SPRING_RABBITMQ_USERNAME: '${TICKETIA_RABBITMQ_USER:-ticketia}'
+  SPRING_RABBITMQ_PASSWORD: '${TICKETIA_RABBITMQ_PASSWORD:-ticketia_local}'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: '${TICKETIA_DB_NAME:-ticketia}'
+      POSTGRES_USER: '${TICKETIA_DB_USER:-ticketia}'
+      POSTGRES_PASSWORD: '${TICKETIA_DB_PASSWORD:-ticketia_local}'
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -h 127.0.0.1 -U "$$POSTGRES_USER" -d "$$POSTGRES_DB"']
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  rabbitmq:
+    image: rabbitmq:4-alpine
+    hostname: rabbitmq
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: '${TICKETIA_RABBITMQ_USER:-ticketia}'
+      RABBITMQ_DEFAULT_PASS: '${TICKETIA_RABBITMQ_PASSWORD:-ticketia_local}'
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    healthcheck:
+      test: [CMD, rabbitmq-diagnostics, -q, check_port_connectivity]
+      interval: 5s
+      timeout: 10s
+      retries: 12
+
+  backend:
+    image: ticketia-backend:local
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    restart: unless-stopped
+    environment:
+      <<: *backend-environment
+      SPRING_PROFILES_ACTIVE: publisher
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    healthcheck:
+      test: [CMD, wget, -q, -O, /dev/null, 'http://127.0.0.1:8080/actuator/health']
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+
+  worker:
+    image: ticketia-backend:local
+    pull_policy: never
+    restart: unless-stopped
+    environment:
+      <<: *backend-environment
+      SPRING_PROFILES_ACTIVE: worker
+      SPRING_MAIN_WEB_APPLICATION_TYPE: none
+      TICKETIA_AI_API_KEY: '${TICKETIA_AI_API_KEY:?Defina TICKETIA_AI_API_KEY no .env da raiz}'
+      TICKETIA_GROQ_MODEL: '${TICKETIA_GROQ_MODEL:-openai/gpt-oss-20b}'
+      TICKETIA_GROQ_BASE_URL: '${TICKETIA_GROQ_BASE_URL:-https://api.groq.com/openai/v1}'
+    depends_on:
+      backend:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    restart: unless-stopped
+    environment:
+      TICKETIA_API_URL: http://backend:8080
+    ports:
+      - '127.0.0.1:${TICKETIA_PORT:-3000}:3000'
+    depends_on:
+      backend:
+        condition: service_healthy
+
+volumes:
+  postgres-data:
+  rabbitmq-data:

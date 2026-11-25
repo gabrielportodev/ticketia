@@ -1,0 +1,8 @@
+*
+!application.properties
+!backend/.mvn/wrapper/maven-wrapper.properties
+!backend/mvnw
+!backend/pom.xml
+!backend/src/main/java/**
+!backend/src/main/resources/db/**
+!contracts/classification-v1.schema.json

@@ -1,0 +1,10 @@
+node_modules
+.next
+**/.env*
+**/.npmrc
+**/*.pem
+**/*.key
+**/*.p12
+**/*.pfx
+*.tsbuildinfo
+npm-debug.log*
