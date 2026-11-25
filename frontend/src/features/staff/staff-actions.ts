@@ -1,6 +1,7 @@
 'use server'
 
 import { redirect } from 'next/navigation'
+import { queueHref, type QueueSelection } from './queue-navigation'
 import { clearStaffSession, mutateStaff, saveStaffSession } from './staff-api'
 import { isTicketProtocol } from './ticket-data'
 
@@ -39,7 +40,12 @@ export async function signOut() {
   redirect('/staff/login')
 }
 
-export async function routeTicket(protocol: string, _previous: string | null, formData: FormData) {
+export async function routeTicket(
+  protocol: string,
+  filters: QueueSelection,
+  _previous: string | null,
+  formData: FormData
+) {
   if (!isTicketProtocol(protocol)) return 'Atendimento não encontrado.'
 
   let response: Response
@@ -58,5 +64,5 @@ export async function routeTicket(protocol: string, _previous: string | null, fo
   if (response.status === 400) return 'Informe um setor de destino válido.'
   if (!response.ok) return 'Não foi possível encaminhar o atendimento. Tente novamente.'
 
-  redirect('/staff?updated=1')
+  redirect(queueHref(filters, { updated: true }))
 }

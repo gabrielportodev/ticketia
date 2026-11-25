@@ -7,7 +7,7 @@ export function useTicketSubmission() {
   const [error, setError] = useState('')
   const [protocol, setProtocol] = useState('')
 
-  async function submit(message: string, onSuccess: () => void) {
+  async function submit(message: string) {
     if (pending) return
 
     const validation = createTicketSchema.safeParse({ message })
@@ -21,7 +21,6 @@ export function useTicketSubmission() {
 
     try {
       setProtocol(await createTicket(validation.data.message))
-      onSuccess()
     } catch (submissionError) {
       setError(getTicketError(submissionError))
     } finally {

@@ -1,22 +1,44 @@
-import { Headphones, Ticket } from 'lucide-react'
+import { Ticket } from 'lucide-react'
+import Link from 'next/link'
 import type { ReactNode } from 'react'
+import { cn } from '@/lib/utils'
 
 export function PortalHeader({ children }: { children?: ReactNode }) {
   return (
-    <header className='bg-[#102e50] text-white'>
-      <div className='mx-auto flex h-19 w-9/10 max-w-284 items-center justify-between max-tablet:h-15.5'>
-        <span className='flex items-center gap-2.75 text-[1.55rem] font-[750] tracking-[-0.06em]'>
-          <span className='grid size-9.25 place-items-center rounded-xl bg-[#b9e0ff] text-[#153d70]'>
-            <Ticket className='-rotate-23' />
-          </span>
-          TicketIA
-        </span>
-        {children ?? (
-          <span className='flex items-center gap-2 text-[0.9rem] text-[#e0ecfa]'>
-            <Headphones className='size-4.25' /> Portal do cliente
-          </span>
-        )}
+    <header className='border-b border-border bg-card'>
+      <SkipToContent />
+      <div className='mx-auto flex min-h-16 w-9/10 max-w-264 items-center justify-between gap-4'>
+        <BrandLink />
+        {children}
       </div>
     </header>
+  )
+}
+
+export function BrandLink({ href = '/', className }: { href?: string; className?: string }) {
+  return (
+    <Link
+      href={href}
+      className={cn(
+        'inline-flex min-h-11 w-fit shrink-0 items-center gap-2.5 rounded-lg text-xl font-bold tracking-tight',
+        className
+      )}
+    >
+      <span className='grid size-8 place-items-center rounded-lg bg-primary text-white'>
+        <Ticket aria-hidden className='size-5 -rotate-15' />
+      </span>
+      TicketIA
+    </Link>
+  )
+}
+
+export function SkipToContent() {
+  return (
+    <a
+      href='#main-content'
+      className='sr-only focus:not-sr-only focus:absolute focus:z-20 focus:m-2 focus:rounded-lg focus:bg-card focus:p-3'
+    >
+      Ir para o conteúdo
+    </a>
   )
 }

@@ -5,22 +5,40 @@
 @theme {
   --breakpoint-tablet: 35rem;
   --breakpoint-desktop: 48.8125rem;
-  --radius-banner: 1.25rem;
-  --shadow-panel: 0 0.25rem 1rem #183b5c05;
-  --shadow-ticket-stack: -0.5rem 0.5625rem #84afe4, -0.875rem 0.9375rem #a3c5ed;
-  --background-image-ticket-dots: radial-gradient(#91bce4 0.0625rem, transparent 0.0625rem);
-  --grid-template-columns-support: minmax(0, 1.75fr) minmax(17.1875rem, 1fr);
-  --font-sans: Inter, 'Segoe UI', sans-serif;
-  --color-background: #f5f7fa;
-  --color-foreground: #142e50;
+  --font-sans: Inter, system-ui, sans-serif;
+  --color-background: #f4f7fa;
+  --color-foreground: #142740;
   --color-card: #fff;
-  --color-primary: #1458cb;
+  --color-primary: #00766a;
   --color-primary-foreground: #fff;
-  --color-secondary: #eff5fc;
-  --color-secondary-foreground: #285783;
-  --color-muted: #edf5fe;
+  --color-primary-hover: #005f55;
+  --color-secondary: #e8f5f2;
+  --color-secondary-foreground: #006358;
+  --color-muted: #eef2f7;
   --color-muted-foreground: #4f6278;
   --color-destructive: #aa2633;
-  --color-border: #d9e1ec;
-  --color-ring: #246dd8;
+  --color-border: #dbe3ed;
+  --color-ring: #007e70;
+  --color-ink: #0e2037;
+  --color-on-ink: #d1dfef;
+  --color-field-border: #7c8da0;
+  --color-error-surface: #fff1f2;
+}
+
+html {
+  scroll-padding-top: 1.5rem;
+}
+
+::selection {
+  background: #b8eadf;
+  color: var(--color-ink);
+}
+
+:where(input, textarea) {
+  caret-color: var(--color-primary);
+}
+
+:where(a:focus-visible) {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 3px;
 }

@@ -1,51 +1,50 @@
-import { ListTree, MailCheck, MessageSquareText, Ticket } from 'lucide-react'
-import { Card } from '@/components/ui/card'
+import { GitBranch, MessageSquareText, Ticket } from 'lucide-react'
 
 const steps = [
   {
     icon: MessageSquareText,
-    title: 'Envie sua mensagem',
-    detail: 'Descreva sua dúvida ou o problema que precisa resolver.'
+    title: 'Descreva o problema',
+    detail: 'Inclua a data e o que você já tentou fazer, se souber.'
   },
   {
     icon: Ticket,
-    title: 'Receba um protocolo',
-    detail: 'O número aparece na tela assim que a solicitação é registrada.'
+    title: 'Guarde o protocolo',
+    detail: 'Ele aparece na tela assim que a solicitação é registrada.'
   },
   {
-    icon: ListTree,
-    title: 'Triagem e encaminhamento',
-    detail: 'Sua mensagem passa pela triagem para chegar à equipe responsável.'
+    icon: GitBranch,
+    title: 'Aguarde a triagem',
+    detail: 'Sua mensagem segue para a equipe responsável pelo assunto.'
   }
 ]
 
 export function TicketGuide() {
   return (
-    <aside aria-labelledby='guide-title'>
-      <Card>
-        <div className='mb-6 flex items-center gap-3'>
-          <MailCheck className='size-5.75 text-secondary-foreground' />
-          <h2 id='guide-title' className='text-[1.17rem] font-bold tracking-[-0.044em]'>
-            Como funciona
-          </h2>
-        </div>
-        <ol>
-          {steps.map(({ icon: Icon, title, detail }) => (
-            <li
-              key={title}
-              className='relative flex items-start gap-3.25 pb-5.75 last:pb-0 not-last:before:absolute not-last:before:inset-y-0 not-last:before:top-8 not-last:before:left-3.75 not-last:before:border-l not-last:before:border-dashed not-last:before:border-[#bbcede]'
-            >
-              <span className='grid size-8 shrink-0 place-items-center rounded-xl bg-secondary text-[#39658f]'>
-                <Icon className='size-4.25' />
-              </span>
-              <div>
-                <h3 className='text-[0.97rem] font-[650]'>{title}</h3>
-                <p className='mt-0.75 text-[0.9rem] leading-normal text-muted-foreground'>{detail}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
-      </Card>
+    <aside
+      id='ticket-guide'
+      tabIndex={-1}
+      aria-labelledby='guide-title'
+      className='border-t border-border pt-5 desktop:border-t-0 desktop:pt-3'
+    >
+      <h2 id='guide-title' className='text-lg font-semibold tracking-tight'>
+        Como funciona
+      </h2>
+      <ol className='mt-4'>
+        {steps.map(({ icon: Icon, title, detail }) => (
+          <li
+            key={title}
+            className='relative flex gap-3 pb-5 last:pb-0 not-last:before:absolute not-last:before:inset-y-0 not-last:before:top-8 not-last:before:left-4 not-last:before:border-l not-last:before:border-border'
+          >
+            <span className='grid size-8 shrink-0 place-items-center rounded-lg bg-secondary text-secondary-foreground'>
+              <Icon aria-hidden className='size-4' />
+            </span>
+            <div>
+              <h3 className='text-sm font-semibold'>{title}</h3>
+              <p className='mt-1 text-sm leading-relaxed text-muted-foreground'>{detail}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
     </aside>
   )
 }

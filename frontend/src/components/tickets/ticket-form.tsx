@@ -1,9 +1,10 @@
 'use client'
 
-import { useState, type FormEvent } from 'react'
-import { Check, LoaderCircle, MessageSquareText, Send } from 'lucide-react'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
+import { LoaderCircle, Send, ShieldCheck } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
+import { FormError } from '@/components/ui/form-error'
 import { Textarea } from '@/components/ui/textarea'
 import { useTicketSubmission } from '@/hooks/use-ticket-submission'
 import { TicketReceipt } from './ticket-receipt'
@@ -11,70 +12,67 @@ import { TicketReceipt } from './ticket-receipt'
 export function TicketForm() {
   const [message, setMessage] = useState('')
   const { pending, error, protocol, submit, clearError, reset } = useTicketSubmission()
+  const receiptTitle = useRef<HTMLHeadingElement>(null)
+  const messageInput = useRef<HTMLTextAreaElement>(null)
+  const focusMessage = useRef(false)
+
+  useEffect(() => {
+    if (protocol) receiptTitle.current?.focus()
+    else if (focusMessage.current) {
+      messageInput.current?.focus()
+      focusMessage.current = false
+    }
+  }, [protocol])
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    void submit(message, () => setMessage(''))
-  }
-
-  function handleMessageChange(value: string) {
-    setMessage(value)
-    clearError()
+    void submit(message)
   }
 
   function handleNewTicket() {
+    focusMessage.current = true
+    setMessage('')
     reset()
   }
 
-  if (protocol) {
-    return (
-      <Card>
-        <TicketReceipt protocol={protocol} onNewTicket={handleNewTicket} />
-      </Card>
-    )
-  }
-
   return (
-    <Card>
-      <form onSubmit={handleSubmit} aria-busy={pending}>
-        <div className='mb-6 flex items-center gap-3'>
-          <span className='grid size-10 place-items-center rounded-xl bg-[#eaf2ff] text-primary'>
-            <MessageSquareText />
-          </span>
-          <h2 className='text-[1.4rem] font-bold tracking-[-0.044em]'>Nova solicitação</h2>
-        </div>
-        <label htmlFor='message' className='text-[0.97rem] font-[650]'>
-          Sua mensagem
-        </label>
-        <Textarea
-          className='mt-2.25 block min-h-36.25 resize-y border-[#c4d1e1] bg-[#fcfdff] outline-ring placeholder:text-[#68798b]'
-          id='message'
-          name='message'
-          required
-          value={message}
-          disabled={pending}
-          placeholder='Ex.: Fui cobrado duas vezes pela minha assinatura.'
-          onChange={event => handleMessageChange(event.target.value)}
-          aria-describedby={error ? 'form-error message-hint' : 'message-hint'}
-        />
-        <p id='message-hint' className='mt-2 text-[0.83rem] text-muted-foreground'>
-          Inclua os detalhes que ajudem a entender o que aconteceu.
-        </p>
-        {error && (
-          <p id='form-error' role='alert' className='mt-3 text-destructive'>
-            {error}
+    <Card id='new-ticket' tabIndex={-1} className='focus-visible:outline-2 focus-visible:outline-ring'>
+      {protocol ? (
+        <TicketReceipt protocol={protocol} titleRef={receiptTitle} onNewTicket={handleNewTicket} />
+      ) : (
+        <form onSubmit={handleSubmit} aria-busy={pending}>
+          <h2 className='mb-4 text-xl font-semibold tracking-tight'>Nova solicitação</h2>
+          <label htmlFor='message' className='text-sm font-semibold'>
+            Sua mensagem
+          </label>
+          <Textarea
+            ref={messageInput}
+            className='mt-2 block min-h-32 resize-y outline-ring placeholder:text-muted-foreground tablet:min-h-40'
+            id='message'
+            name='message'
+            required
+            value={message}
+            disabled={pending}
+            placeholder='Ex.: Fui cobrado duas vezes pela minha assinatura.'
+            onChange={event => {
+              setMessage(event.target.value)
+              clearError()
+            }}
+            aria-invalid={error && !message.trim() ? true : undefined}
+            aria-describedby={error ? 'message-hint form-error' : 'message-hint'}
+          />
+          <p id='message-hint' className='mt-3 flex items-start gap-2 text-sm text-muted-foreground'>
+            <ShieldCheck aria-hidden className='mt-0.5 size-4 shrink-0' /> Evite incluir senhas ou dados de cartão.
           </p>
-        )}
-        <div className='mt-6.5 flex items-center justify-between gap-3.5 border-t border-[#e2e9f1] pt-5 max-tablet:flex-wrap'>
-          <span className='flex items-center gap-1.75 text-[0.83rem] text-muted-foreground'>
-            <Check className='size-4' /> Um protocolo por solicitação
-          </span>
-          <Button className='min-h-10.5 px-4.5 max-tablet:w-full' type='submit' disabled={pending}>
-            {pending ? <LoaderCircle className='animate-spin' /> : <Send />}
-            {pending ? 'Enviando…' : 'Enviar solicitação'}
-          </Button>
-        </div>
-      </form>
+          <FormError id='form-error' message={error} className='mt-3' />
+          <div className='mt-4 flex border-t border-border pt-4 tablet:justify-end'>
+            <Button className='h-11 px-4 max-tablet:w-full' type='submit' disabled={pending}>
+              {pending ? <LoaderCircle aria-hidden className='motion-safe:animate-spin' /> : <Send aria-hidden />}
+              {pending ? 'Enviando…' : 'Enviar solicitação'}
+            </Button>
+          </div>
+        </form>
+      )}
     </Card>
   )
 }

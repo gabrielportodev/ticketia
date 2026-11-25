@@ -1,42 +1,48 @@
-import { useState } from 'react'
-import { CheckCheck, Copy } from 'lucide-react'
+import { useState, type Ref } from 'react'
+import { Check, CircleCheck, Copy, Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 type TicketReceiptProps = {
   protocol: string
+  titleRef: Ref<HTMLHeadingElement>
   onNewTicket: () => void
 }
 
-export function TicketReceipt({ protocol, onNewTicket }: TicketReceiptProps) {
-  const [copyStatus, setCopyStatus] = useState('')
+export function TicketReceipt({ protocol, titleRef, onNewTicket }: TicketReceiptProps) {
+  const [copyStatus, setCopyStatus] = useState<'copied' | 'failed' | null>(null)
 
   async function copyProtocol() {
     try {
       await navigator.clipboard.writeText(protocol)
-      setCopyStatus('Protocolo copiado.')
+      setCopyStatus('copied')
     } catch {
-      setCopyStatus('Selecione e copie o protocolo acima.')
+      setCopyStatus('failed')
     }
   }
 
   return (
-    <section aria-live='polite'>
-      <span className='grid size-10 place-items-center rounded-xl bg-[#eaf2ff] text-primary'>
-        <CheckCheck />
-      </span>
-      <h2 className='mt-4 mb-1.5 text-[1.4rem] font-bold tracking-[-0.044em]'>Atendimento recebido</h2>
-      <p className='text-muted-foreground'>Guarde o protocolo que identifica sua solicitação.</p>
-      <strong className='my-5.5 block rounded-lg bg-muted p-4 font-mono wrap-anywhere'>{protocol}</strong>
-      <div className='mb-2.5 flex flex-wrap items-center gap-1.75'>
-        <Button className='min-h-10.5 px-4.5' onClick={copyProtocol}>
-          <Copy /> Copiar protocolo
+    <section>
+      <h2 ref={titleRef} tabIndex={-1} className='flex items-center gap-2.5 text-xl font-semibold tracking-tight'>
+        <CircleCheck aria-hidden className='size-5 shrink-0 text-primary' /> Atendimento recebido
+      </h2>
+      <p className='mt-2 text-sm leading-relaxed text-muted-foreground'>
+        Sua solicitação foi registrada e segue para triagem.
+      </p>
+      <div className='my-4 rounded-lg bg-secondary p-4'>
+        <p className='text-xs font-semibold text-muted-foreground'>Protocolo do atendimento</p>
+        <strong className='mt-1 block font-mono text-sm wrap-anywhere text-secondary-foreground'>{protocol}</strong>
+      </div>
+      <div className='flex flex-wrap gap-2'>
+        <Button className='h-11 px-4' onClick={copyProtocol}>
+          {copyStatus === 'copied' ? <Check aria-hidden /> : <Copy aria-hidden />} Copiar protocolo
         </Button>
-        <Button variant='outline' onClick={onNewTicket}>
-          Novo atendimento
+        <Button className='h-11 px-4' variant='outline' onClick={onNewTicket}>
+          <Plus aria-hidden /> Novo atendimento
         </Button>
       </div>
-      <p role='status' className='text-muted-foreground'>
-        {copyStatus}
+      <p role='status' className='text-sm text-muted-foreground not-empty:mt-3'>
+        {copyStatus === 'copied' && 'Protocolo copiado.'}
+        {copyStatus === 'failed' && 'Selecione e copie o protocolo acima.'}
       </p>
     </section>
   )
